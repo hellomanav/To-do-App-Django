@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% load static %}
+{% static "" as baseUrl %}
+<style>
+
+	body{
+		{% comment %} background-color: #638CB8; {% endcomment %}
+		{% comment %} background-image:url(' {{baseUrl}}tasks/images/{{image_url}}'); {% endcomment %}
+		background-image:url(' {{baseUrl}}tasks/images/{{image_url}}');
+
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+</style>
+<link rel="stylesheet" href="{% static 'tasks/css/main.css' %}">
+<div class="center-column">
+<h2 class="main-heading">Manav's To-do List</h2>
+	<form method="POST" action="/">
+		{% csrf_token %}
+		{{form.title}}
+		<input class="btn btn-info" type="submit" name="Create Task">
+	</form>
+
+	<div class="todo-list">
+
+	{% for task in tasks %}
+		<div class="item-row">
+			<a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a>
+			<a class="btn btn-sm btn-danger" href="{% url 'delete' task.id %}">Delete</a>
+
+			{% if task.complete == True %}
+			<strike>{{task}}</strike>
+			{% else %}
+			<span>{{task}}</span>
+			{% endif %}
+		</div>
+	{% endfor %}
+	</div>
+</div>
