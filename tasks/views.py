@@ -12,6 +12,7 @@ from django.contrib.staticfiles.storage import StaticFilesStorage
 
 
 def index(request):
+    print(request.path)
     path = static('tasks/images')
     print(path)
     s = StaticFilesStorage()

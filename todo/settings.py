@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-v3w3$1&1x@u+5ewhze15&+yaqi*c1$rzjre^uhz3wyq_gif8#+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://manav-todo-app.herokuapp.com','127.0.0.1','localhost']
 
 
 # Application definition
