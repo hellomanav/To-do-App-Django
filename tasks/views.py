@@ -13,11 +13,15 @@ from django.contrib.staticfiles.storage import StaticFilesStorage
 
 def index(request):
     print(request)
-    path = static('tasks/images')
-    print(path)
+    # path = static('tasks/images')
+    # print(path)
     s = StaticFilesStorage()
     img_list=list(get_files(s, location=os.path.join('tasks','images')))
-    image_url = random.choice(img_list).split('\\')[2]
+    image_url=''
+    try:
+        image_url = random.choice(img_list).split('\\')[2]
+    except Exception as e:
+        print(str(e))
     print(image_url)
     print(type(image_url))
     tasks = Task.objects.all()
