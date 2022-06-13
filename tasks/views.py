@@ -18,24 +18,29 @@ def index(request):
     # print(path)
     s = StaticFilesStorage()
     print('sstatic path is')
-    print(s.base_url)
-    print('static root is')
-    print(settings.STATIC_ROOT)
-    print('directories')
-    img_dir=os.path.join(settings.STATIC_ROOT,"tasks","images")
-    img_list=os.listdir(img_dir)
-    # print(img_list)
+    print(s.location)
+    # print(dir(s))
+    # print('static root is')
+    # print(settings.STATIC_ROOT)
+    # print('directories')
+
+    # production? 
+    # These both search in static root directory
+    # s = StaticFilesStorage()
     # img_list=list(get_files(s, location=os.path.join('tasks','images')))
-    # img_list=list(get_files(os.path(settings.STATIC_ROOT), location=os.path.join('tasks','images')))
-    image_url=''
+    # img_dir=os.path.join(settings.STATIC_ROOT,"tasks","images")
+    # img_list=os.listdir(img_dir)
+
+    # 111111111111111111111111111111111
+    img_dir=os.path.join(s.location,"tasks","images")
+    img_list=os.listdir(img_dir)
+    # ````````````````````````````````
+    
+    img_name=''
     try:
-        # image_url = os.path.join(img_dir, random.choice(img_list))
         img_name=str(random.choice(img_list))
-        image_url=str(img_dir)+ str(img_name)
     except Exception as e:
         print(str(e))
-    print(image_url)
-    print(type(image_url))
     tasks = Task.objects.all()
     form = TaskForm()
 

@@ -1,0 +1,83 @@
+[33mcommit 2f30665628f7fba60502ef7015fc27a1e9b53870[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Manav Kalra <hellomanav13@gmail.com>
+Date:   Mon Jun 13 19:07:02 2022 +0530
+
+    changing runtime
+
+[1mdiff --git a/tasks/__pycache__/views.cpython-39.pyc b/tasks/__pycache__/views.cpython-39.pyc[m
+[1mindex 3e17cb0..f7c4911 100644[m
+Binary files a/tasks/__pycache__/views.cpython-39.pyc and b/tasks/__pycache__/views.cpython-39.pyc differ
+[1mdiff --git a/tasks/templates/tasks/list.html b/tasks/templates/tasks/list.html[m
+[1mindex c4262e2..ee1be37 100644[m
+[1m--- a/tasks/templates/tasks/list.html[m
+[1m+++ b/tasks/templates/tasks/list.html[m
+[36m@@ -5,8 +5,10 @@[m
+ [m
+ 	body{[m
+ 		{% comment %} background-color: #638CB8; {% endcomment %}[m
+[31m-		{% comment %} background-image:url(' {{baseUrl}}tasks/images/{{image_url}}'); {% endcomment %}[m
+[31m-		background-image:url(' {{baseUrl}}tasks/images/{{image_url}}');[m
+[32m+[m		[32mbackground-image:url(' {{baseUrl}}tasks/images/{{img_url}}');[m
+[32m+[m		[32m{% comment %} background-image:url(' {{baseUrl}}img_url'); {% endcomment %}[m
+[32m+[m		[32m{% comment %} background-image:url(' {% static "tasks/images/{{img_url}}" %}'); {% endcomment %}[m
+[32m+[m[41m		[m
+ [m
+ 		background-repeat: no-repeat;[m
+ 		background-attachment: fixed;[m
+[36m@@ -20,6 +22,7 @@[m
+ <link rel="stylesheet" href="{% static 'tasks/css/main.css' %}">[m
+ <div class="center-column">[m
+ <h2 class="main-heading">Manav's To-do List</h2>[m
+[32m+[m[32m<p>{{baseUrl}}--{{img_url}}--{{ STATIC_ROOT }}</p>[m
+ 	<form method="POST" action="/">[m
+ 		{% csrf_token %}[m
+ 		{{form.title}}[m
+[1mdiff --git a/tasks/views.py b/tasks/views.py[m
+[1mindex 8622a93..e7f990a 100644[m
+[1m--- a/tasks/views.py[m
+[1m+++ b/tasks/views.py[m
+[36m@@ -6,20 +6,32 @@[m [mfrom .forms import *[m
+ import os,random[m
+ from pathlib import Path[m
+ from django.templatetags.static import static[m
+[32m+[m[32mfrom django.conf import settings[m
+ from django.contrib.staticfiles.utils import get_files[m
+ from django.contrib.staticfiles.storage import StaticFilesStorage[m
+ [m
+ [m
+ [m
+ def index(request):[m
+[31m-    print(request)[m
+[32m+[m[32m    # print(request)[m
+     # path = static('tasks/images')[m
+     # print(path)[m
+     s = StaticFilesStorage()[m
+[31m-    img_list=list(get_files(s, location=os.path.join('tasks','images')))[m
+[32m+[m[32m    print('sstatic path is')[m
+[32m+[m[32m    print(s.base_url)[m
+[32m+[m[32m    print('static root is')[m
+[32m+[m[32m    print(settings.STATIC_ROOT)[m
+[32m+[m[32m    print('directories')[m
+[32m+[m[32m    img_dir=os.path.join(settings.STATIC_ROOT,"tasks","images")[m
+[32m+[m[32m    img_list=os.listdir(img_dir)[m
+[32m+[m[32m    # print(img_list)[m
+[32m+[m[32m    # img_list=list(get_files(s, location=os.path.join('tasks','images')))[m
+[32m+[m[32m    # img_list=list(get_files(os.path(settings.STATIC_ROOT), location=os.path.join('tasks','images')))[m
+     image_url=''[m
+     try:[m
+[31m-        image_url = random.choice(img_list).split('\\')[2][m
+[32m+[m[32m        # image_url = os.path.join(img_dir, random.choice(img_list))[m
+[32m+[m[32m        img_name=str(random.choice(img_list))[m
+[32m+[m[32m        image_url=str(img_dir)+ str(img_name)[m
+     except Exception as e:[m
+         print(str(e))[m
+     print(image_url)[m
+[36m@@ -32,7 +44,7 @@[m [mdef index(request):[m
+         if form.is_valid():[m
+             form.save()[m
+         return redirect('/')[m
+[31m-    context = {'tasks':tasks, 'form':form,'image_url':image_url}[m
+[32m+[m[32m    context = {'tasks':tasks, 'form':form,'img_url':img_name}[m
+     return render(request, 'tasks/list.html', context)[m
+ [m
+ def updateTask(request, pk):[m
