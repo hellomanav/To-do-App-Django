@@ -5,8 +5,10 @@
 
 	body{
 		{% comment %} background-color: #638CB8; {% endcomment %}
-		{% comment %} background-image:url(' {{baseUrl}}tasks/images/{{image_url}}'); {% endcomment %}
-		background-image:url(' {{baseUrl}}tasks/images/{{image_url}}');
+		background-image:url(' {{baseUrl}}tasks/images/{{img_url}}');
+		{% comment %} background-image:url(' {{baseUrl}}img_url'); {% endcomment %}
+		{% comment %} background-image:url(' {% static "tasks/images/{{img_url}}" %}'); {% endcomment %}
+		
 
 		background-repeat: no-repeat;
 		background-attachment: fixed;
@@ -20,6 +22,7 @@
 <link rel="stylesheet" href="{% static 'tasks/css/main.css' %}">
 <div class="center-column">
 <h2 class="main-heading">Manav's To-do List</h2>
+<p>{{baseUrl}}--{{img_url}}--{{ STATIC_ROOT }}</p>
 	<form method="POST" action="/">
 		{% csrf_token %}
 		{{form.title}}
