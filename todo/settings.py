@@ -37,13 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # production static middelware
+    'whitenoise.runserver_nostatic',
+    # end
     'django.contrib.staticfiles',
     'tasks.apps.TasksConfig'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    # production static middelware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # end
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -121,16 +126,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
 STATICFILES_DIRS = [
-    BASE_DIR / "static/",
+    BASE_DIR / "static",
+    os.path.join(PROJECT_ROOT, '..', 'static'),
 ]
 MEDIA_URL = '/images/'
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# For production deployement
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# end
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

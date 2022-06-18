@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="{% static 'tasks/css/main.css' %}">
 <div class="center-column">
 <h2 class="main-heading">Manav's To-do List</h2>
-<p>{{baseUrl}}--{{img_url}}--{{ STATIC_ROOT }}</p>
+{% comment %} <p>{{baseUrl}}--{{img_url}}--{{ STATIC_ROOT }}</p> {% endcomment %}
 	<form method="POST" action="/">
 		{% csrf_token %}
 		{{form.title}}
