@@ -15,8 +15,8 @@ def index(request):
     print('static path is')
     print(s.location)
     # print(dir(s))
-    print('static root is')
-    print(settings.STATIC_ROOT)
+    # print('static root is')
+    # print(settings.STATIC_ROOT)
    
     # get random image to display on home page
     img_list=[]
